@@ -1,3 +1,5 @@
+A benchmark for https://github.com/HaxeFoundation/haxe/issues/5109
+
 ```
 PS D:\Code\playground> D:\code\node510\node.exe main.js
 
