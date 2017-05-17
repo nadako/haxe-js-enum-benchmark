@@ -42,40 +42,41 @@ class Main {
         trace(stats.toString());
 
         var suite = new Suite();
+        var v = getSome();
         suite.add("array enum matching", function() {
-            var v = Some(10);
-            function f(v:Option<Int>) return switch (v) {
+            var r = null;
+            @:measure r = switch (v) {
                 case Some(v): 1;
                 case None: null;
                 case None2: null;
             }
-            var r = null;
-            @:measure r = f(v);
             if (r == null) throw false;
         });
+        var v = getCSome();
         suite.add("object enum matching", function() {
-            var v = new CSome(10);
-            function f(v:COption<Int>) return switch (v.index) {
+            var r = null;
+            @:measure r = switch (v.index) {
                 case 0: (cast v : CSome<Int>).value;
                 case 1: null;
                 default: null;
             }
-            var r = null;
-            @:measure r = f(v);
             if (r == null) throw false;
         });
+        var v = getAnon();
         suite.add("anon enum matching", function() {
-            var v = {index: 0, value: 10};
-            function f(v) return switch (v.index) {
+            var r = null;
+            @:measure r = switch (v.index) {
                 case 0: v.value;
                 case 1: null;
                 default: null;
             }
-            var r = null;
-            @:measure r = f(v);
             if (r == null) throw false;
         });
         var stats = suite.run();
         trace(stats.toString());
     }
+
+    static function getSome() return Some(10);
+    static function getCSome() return new CSome(10);
+    static function getAnon() return {index: 0, value: 10};
 }
